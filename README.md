@@ -71,7 +71,7 @@ Pour le faire, placer vous à la racine du projet `app` et faites :
 Connectez vous à `localhost:5050` sur votre navigateur préféré et admirer la magie x) 
 
 ### Script d'automatisation 
-Si vous �tes un flemmard comme moi, je vous ai fait un petit script qui automatise tout ça.  
+Si vous etes un flemmard comme moi, je vous ai fait un petit script qui automatise tout ça.  
 Exécutez le script `create-and-setup.sh` ou `delete.sh` à la racine du projet:
 ```shell
   # droits d'éxécution
