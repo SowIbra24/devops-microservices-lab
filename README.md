@@ -80,8 +80,31 @@ Exécutez le script `create-and-setup.sh` ou `delete.sh` à la racine du projet:
   # lancement
   ./create-and-setup.sh
   
-  # pour supprimer conteneurs et images
+  # pour supprimer réseau conteneurs et images
   ./delete.sh
 ```
 Si vous avez décommentez la dernière ligne du script, tout s'automatise jusqu'à l'ouverture de la page.  
 Sinon, connectez vous à `localhost:5050` sur votre navigateur préféré et admirer la magie x) 
+
+**Maintenant, vous pouvez arreter le conteneur du serveur flask et le rallumer, la valeur du compteur augmentera 
+tant que le serveur bdd tournera**
+
+**Que se passera t'il si le conteneur du serveur bdd tombait en panne?**
+- Le compteur reviendrais 0 si on rallume le conteneur de la base de donnée.
+Pour eviter cela, on va monter un volume dans le conteneur de la bdd et la bdd écrira et lira sur ce volume
+
+## Montage du volume pour la base de données 
+Pour cette première partie, il faut : 
+- Créer un volume
+- Lancer le conteneur de la base de données avec une option en plus qui permet de spécifier le volume
+
+```bash
+    # créer le volume
+    docker volume create mysql_data
+
+    # la base de connées puis attendez environ 10s qu'il démarre    
+    docker run -d --network=monReseau --name db -e MYSQL_ROOT_PASSWORD=rootpassword \   
+    -e MYSQL_DATABASE=counterdb -e MYSQL_USER=user -e MYSQL_PASSWORD=password -v mysql_data:/var/lib/mysql image-bdd               
+```
+Maintenant meme après suppression ou redemarrage des conteneurs, la bse de données est stockée en local, donc le compteur ne reviendra plus à zero
+à part si on le fait depuis la base de données ou si on la supprime elle aussi.
