@@ -4,7 +4,8 @@ docker build -t image-flask .
 docker build -t image-bdd bdd/
 
 docker run -d --network=monReseau --name db -e MYSQL_ROOT_PASSWORD=rootpassword \
- -e MYSQL_DATABASE=counterdb -e MYSQL_USER=user -e MYSQL_PASSWORD=password image-bdd
+ -e MYSQL_DATABASE=counterdb -e MYSQL_USER=user -e MYSQL_PASSWORD=password\
+  -v mysql_data:/var/lib/mysql image-bdd
 
 # petit sleep pour que sql demarre
 
