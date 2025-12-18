@@ -24,8 +24,8 @@ Pour lancer l'appli, il faut aller dans le dossier `app`
     deactivate
 ```
 ## Ajout d'un dockerfile pour conteneuriser l'appli.
-Pour ne plus avoir à trainer un gros dossier venv sur chaque ordinateur où l'application s'éxécute, j'ai décidé de conteneuriser l'application.   
-Cela permet notamment une exécution identique sur toute machine ayant un demon docker
+Pour ne plus avoir à trainer un gros dossier venv sur chaque ordinateur où l'application s'éxécute, j'ai décidé de conteneuriser 
+l'application. Cela permet notamment une exécution identique sur toute machine ayant un demon docker
 Pour cela il faut se rendre dans le dossier `app` : 
 - Créer l'image docker
 - Lancer l'image en mappant le port du conteneur soit visible depuis l'ordi hote (on le voit sur localhost:5000/).
@@ -106,5 +106,16 @@ Pour cette première partie, il faut :
     docker run -d --network=monReseau --name db -e MYSQL_ROOT_PASSWORD=rootpassword \   
     -e MYSQL_DATABASE=counterdb -e MYSQL_USER=user -e MYSQL_PASSWORD=password -v mysql_data:/var/lib/mysql image-bdd               
 ```
-Maintenant meme après suppression ou redemarrage des conteneurs, la bse de données est stockée en local, donc le compteur ne reviendra plus à zero
-à part si on le fait depuis la base de données ou si on la supprime elle aussi.
+Maintenant meme après suppression ou redemarrage des conteneurs, la bse de données est stockée en local, donc le compteur 
+ne reviendra plus à zero à part si on le fait depuis la base de données ou si on la supprime elle aussi.
+
+**C'est bien joli une base de donées qui tourne, mais actuellement elle n'est accéssible qu'avec un programme (app par exemple)
+ou en ligne de commandes.  
+Et si on lui donnait une interface graphique à partir de la quelle on puisse la modifier ?**
+
+## Interface graphique PhpMyAdmin 
+Bien qu'on aurait pu directement lancer le conteneur phpmyadmin et lui donner les variables d'environnement, je vais faire un dockerfile
+comme les autres.  
+Et je l'ajoute dans le workflow dans les scripts de lancement et de suppression.
+
+Pour voir l'exécution, lancez le script `create-and-setup.sh` puis connectez  à `localhost:8081`
