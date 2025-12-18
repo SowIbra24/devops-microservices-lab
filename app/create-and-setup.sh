@@ -12,8 +12,8 @@ sleep 10
 
 docker run -d --network=monReseau --name app -p5000:5000 image-flask
 
-# petit sleep de syncro
+# petit sleep de synchro
 sleep 2
 # decommenter cette ligne si vous avez firefox en ligne de commande
- firefox localhost:5000
+ firefox localhost:5000 &
 
