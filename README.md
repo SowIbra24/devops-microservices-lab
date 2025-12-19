@@ -126,7 +126,7 @@ Jusqu'à maintenant, j'avais fait des petits scripts d'automatisation en bas pou
 Je vais maintenant utiliser l'outil `docker-compose` pour gerer la dépendance des conteneurs (qui se lance avant qui) et bien 
 parametrer les conteneurs avec par exemple l'attribut `restart : always` qui relance un conteneur dès qu'il s'arrete.
 
-Pour lancer les services maintenant, il faut etre à la racine de ce projet et faire :
+Pour lancer les services maintenant, il faut etre à la racine de ce projet et faire : 
 
 ```bash
     # lancer les conteneurs (-d pour le faire en arrière plan) 
