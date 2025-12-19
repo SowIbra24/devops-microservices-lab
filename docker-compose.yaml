@@ -39,6 +39,15 @@ services:
     depends_on:
       - db
 
+  calculatrice:
+    build: ./web
+    container_name: calculatrice
+    ports:
+      - "8080:80"
+    networks:
+     - monReseau
+
+
 
 volumes:
   mysql_data:
