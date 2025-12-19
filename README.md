@@ -113,9 +113,15 @@ ne reviendra plus à zero à part si on le fait depuis la base de données ou si
 ou en ligne de commandes.  
 Et si on lui donnait une interface graphique à partir de la quelle on puisse la modifier ?**
 
-## Interface graphique PhpMyAdmin 
+# Feat : Interface graphique PhpMyAdmin pour administrer la base de données en GUI 
 Bien qu'on aurait pu directement lancer le conteneur phpmyadmin et lui donner les variables d'environnement, je vais faire un dockerfile
 comme les autres.  
 Et je l'ajoute dans le workflow dans les scripts de lancement et de suppression.
 
-Pour voir l'exécution, lancez le script `create-and-setup.sh` puis connectez  à `localhost:8081`
+Pour voir l'exécution, lancez le script `create-and-setup.sh` puis connectez  à `localhost:8081`, vous pouvez maintenant administrer 
+votre base de données avec l'interface graphique (modifier la valeur du compteur par exemple) .
+
+# Feat : Automatisation du lancement et de la gestion des conteneurs (docker-compose)
+Jusqu'à maintenant, j'avais fait des petits scripts d'automatisation en bas pour lancer et arreter les conteneurs.  
+Je vais maintenant utiliser l'outil `docker-compose` pour gerer la dépendance des conteneurs (qui se lance avant qui) et bien 
+parametrer les conteneurs avec par exemple l'attribut `restart : always` qui relance un conteneur dès qu'il s'arrete.
