@@ -125,3 +125,16 @@ votre base de données avec l'interface graphique (modifier la valeur du compteu
 Jusqu'à maintenant, j'avais fait des petits scripts d'automatisation en bas pour lancer et arreter les conteneurs.  
 Je vais maintenant utiliser l'outil `docker-compose` pour gerer la dépendance des conteneurs (qui se lance avant qui) et bien 
 parametrer les conteneurs avec par exemple l'attribut `restart : always` qui relance un conteneur dès qu'il s'arrete.
+
+Pour lancer les services maintenant, il faut etre dans le dossier `apprentissage_docker` et faire :
+
+```bash
+    # lancer les conteneurs (-d pour le faire en arrière plan) 
+    docker-compose up -d 
+    
+    # arreter les conteneurs (ajouter l'option -v pour supprimer le volume aussi)
+    docker-compose down 
+```
+Le `depends_on:` garantit que la base de données sera créée avant tous les autres conteneurs mais ne garantit pas qu'elle 
+sera operationnelle avant la création des autres.  
+Il faudra donc attendre un peu (l'équivalent des sleep dans le script), mais tout marchera.
