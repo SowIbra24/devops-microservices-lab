@@ -138,3 +138,20 @@ Pour lancer les services maintenant, il faut etre à la racine de ce projet et f
 Le `depends_on:` garantit que la base de données sera créée avant tous les autres conteneurs mais ne garantit pas qu'elle 
 sera operationnelle avant la création des autres.  
 Il faudra donc attendre un peu (l'équivalent des sleep dans le script), mais tout marchera.
+
+# Feat : un nouveau micro service qui calcul la somme de 2 nombres 
+Dans le repertoire `web`, il y'a un petit dockerfile qui crée une image apache et copie le contenu de `index.html` (une petite calculatrice)
+dans le repertoire /var/www/html du serveur apache et expose le port 80.  
+Le docker compose s'adapte donc et intègre ce nouveau micro service dans le lot.  
+Faites (en étant à la racine du projet) :  
+```bash
+    # lancer docker compose en arrière plan
+    docker-compose up -d
+    
+    # éteindre
+    docker compose down 
+    
+    ## si vous modifiez le fichier index.html, faites un build à nouveau sur calculatrice et refaites un docker-compose up
+    # pour faire un build de calculatrice
+    docker-compose build calculatrice  
+```
