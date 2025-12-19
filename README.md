@@ -155,3 +155,10 @@ Faites (en étant à la racine du projet) :
     # pour faire un build de calculatrice
     docker-compose build calculatrice  
 ```
+
+# Feat : Tests automatiques des micro services en ligne de commandes
+Pour faire en sorte d'avoir un un CI/CD, j'ai décidé d'écrire quelques tests automatiques pour les 2 micro services:
+- `ci/test_curl_app_flask.sh` lance des tests pour l'application flask. Il fait un curl quelques fois et teste que la valeur du compteur
+s'est incrémentée exactement comme elle le devait.
+- `ci/tests_curl_calculatrice.sh` fait des tests en envoyant 2 nombres en POST. Il récupère ensuite le résultat et vérifie que c'est le bon.
+Ces 2 scripts sont ensuite appelés dans `ci/run.sh` qui automatise et gère les sorties d'erreurs. Il me servira dans la mise en place du CI/CD.
