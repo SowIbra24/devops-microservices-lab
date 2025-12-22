@@ -1,5 +1,10 @@
 image: ubuntu:22.04
 
+default:
+  tags:
+    - docker_build
+    - docker_ci_build
+    - docker_image
 stages:
   - build_run_containers_and_test
 
