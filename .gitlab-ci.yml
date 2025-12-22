@@ -29,8 +29,7 @@ run_containers_and_test:
   when: on_success
   only:
     - main
-  before_script:
-    - chmod +x ci/run.sh
+    -
   script:
     - echo " Je vais lancer les conteneurs "
     - docker-compose up -d
@@ -38,7 +37,7 @@ run_containers_and_test:
     - echo "voici les conteneurs"
     - docker ps -a
     - echo " Lancement des tests "
-    - ./ci/run.sh
+    - bash $CI_PROJECT_DIR/ci/run.sh
     - echo " J'éteins les conteneurs "
     - docker-compose down -v
 
