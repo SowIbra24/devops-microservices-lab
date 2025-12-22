@@ -187,3 +187,19 @@ J'ai donc repensé la logique.
 - Si un test échoue, le pipeline est marqué comme échoué
 
 Résultat : le pipeline fonctionne correctement et passe tous les tests.
+
+## GitHub Actions
+
+Pour GitHub Actions, le même principe est appliqué :
+
+- Chaque commit sur la branche principale déclenche le workflow
+- Le workflow s'exécute sur un runner Ubuntu fourni par GitHub (`runs-on: ubuntu-latest`)
+- Docker et Docker Compose sont installés dans le job
+- Le script `tests.sh` fait le reste et le pipeline échoue si le script ne va pas au bout.
+
+### Avantages
+
+- Même logique que GitLab CI mais adaptée à GitHub Actions
+- Les tests sont isolés dans un conteneur dédié
+- Pas d’impact sur les autres services si les tests échouent
+- Visualisation directe des logs dans l’interface GitHub
