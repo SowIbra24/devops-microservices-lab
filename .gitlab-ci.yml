@@ -1,0 +1,39 @@
+image: docker:24.0.5
+
+services:
+  - docker:24.0.5-dind
+
+variables:
+  COMPOSE_PROJECT_NAME: apprentissage_docker
+  DOCKER_TLS_CERTDIR: "" # Nécéssaire pour faire du dind
+
+default:
+  tags:
+    - docker_build
+
+stages:
+  - build
+  - run_containers
+
+build:
+  stage: build
+  only:
+    - main
+  script:
+    - echo "################# Je vais faire un build #################"
+    - docker-compose build
+    - echo "################# Build fini ######################"
+
+run_containers:
+  stage: run_containers
+  when: on_success
+  only:
+    - main
+  script:
+    - echo "################# Je vais lancer les conteneurs #################"
+    - docker-compose up -d
+    - echo "################# Lancement fini ######################"
+    - echo "voici les conteneurs"
+    - docker ps -a
+
+
