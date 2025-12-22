@@ -10,4 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run : bash tests.sh
+      - run : |
+          sudo apt install docker-compose
+          bash tests.sh
