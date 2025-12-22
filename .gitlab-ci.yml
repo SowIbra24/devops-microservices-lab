@@ -20,20 +20,9 @@ build_run_containers_and_test:
   only:
     - main
   before_script:
-    - apk add --no-cache bash curl grep sed
-    - chmod +x ./ci/run.sh
-
+    - chmod +x tests.sh
   script:
-    - echo " Je vais lancer les conteneurs "
-    - docker-compose up -d
-    - echo " Lancement fini "
-    - echo "voici les conteneurs"
-    - docker ps -a
-    - echo " Lancement des tests "
-    - sleep 5
-    - echo "test avec nom du service"
-    - curl -s http://calculatrice:80
-    - echo " J'éteins les conteneurs "
-    - docker-compose down -v
+    - sh tests.sh
+
 
 
