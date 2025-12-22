@@ -11,6 +11,8 @@ fi
 
 echo "....... Fin du test de la calculatrice .......... "
 
+sleep 5 # au cas où la base de données ne serait pas prete
+
 echo "....... Test manuel avec curl de la valeur du compteur ........ "
 
 chmod +x ci/test_curl_app_flask.sh

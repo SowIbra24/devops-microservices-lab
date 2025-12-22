@@ -20,7 +20,6 @@ build:
   only:
     - main
   script:
-    - set +x
     - echo " Je vais faire un build "
     - docker-compose build
     - echo " Build fini "
@@ -33,14 +32,13 @@ run_containers_and_test:
   before_script:
     - chmod +x ci/run.sh
   script:
-    - set +x
     - echo " Je vais lancer les conteneurs "
     - docker-compose up -d
     - echo " Lancement fini "
     - echo "voici les conteneurs"
     - docker ps -a
     - echo " Lancement des tests "
-    - ci/run.sh
+    - ./ci/run.sh
     - echo " J'éteins les conteneurs "
     - docker-compose down -v
 
