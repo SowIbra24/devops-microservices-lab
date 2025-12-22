@@ -28,7 +28,8 @@ build_run_containers_and_test:
     - echo "voici les conteneurs"
     - docker ps -a
     - echo " Lancement des tests "
-    - sh $CI_PROJECT_DIR/ci/run.sh
+    - cd $CI_PROJECT_DIR/ci
+    - sh run.sh
     - echo " J'éteins les conteneurs "
     - docker-compose down -v
 
