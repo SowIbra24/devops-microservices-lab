@@ -12,20 +12,10 @@ default:
     - docker_daemon
 
 stages:
-  - build
-  - run_containers_and_test
+  - build_run_containers_and_test
 
-build:
-  stage: build
-  only:
-    - main
-  script:
-    - echo " Je vais faire un build "
-    - docker-compose build
-    - echo " Build fini "
-
-run_containers_and_test:
-  stage: run_containers_and_test
+build_run_containers_and_test:
+  stage: build_run_containers_and_test
   when: on_success
   only:
     - main
@@ -38,7 +28,7 @@ run_containers_and_test:
     - echo "voici les conteneurs"
     - docker ps -a
     - echo " Lancement des tests "
-    - $CI_PROJECT_DIR/ci/run.sh
+    - sh $CI_PROJECT_DIR/ci/run.sh
     - echo " J'éteins les conteneurs "
     - docker-compose down -v
 
