@@ -9,7 +9,6 @@ build_run_containers_and_test:
     - main
   before_script:
     - apt update -y && apt install docker.io && apt install docker-compose -y
-    - service docker start
     - chmod +x tests.sh
   script:
     - echo " ************** Debut *************"
