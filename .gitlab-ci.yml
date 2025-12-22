@@ -1,7 +1,8 @@
 image: docker:24.0.5
 
 services:
-  - docker:24.0.5-dind
+  - name: docker:24.0.5-dind
+    privileged: true
 
 variables:
   COMPOSE_PROJECT_NAME: apprentissage_docker
