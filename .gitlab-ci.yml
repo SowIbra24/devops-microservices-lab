@@ -20,7 +20,7 @@ build_run_containers_and_test:
   only:
     - main
   before_script:
-    -apk add --no-cache bash
+    - apk add --no-cache bash
     - chmod +x ./ci/run.sh
 
   script:
