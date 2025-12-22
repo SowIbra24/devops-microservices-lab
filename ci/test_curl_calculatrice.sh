@@ -1,6 +1,6 @@
 #!/bin/bash
 
-url="http://localhost:8080/"
+url="http://calculatrice/"
 
 n1=7
 n2=5
