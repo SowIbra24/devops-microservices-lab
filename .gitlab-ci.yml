@@ -29,7 +29,6 @@ run_containers_and_test:
   when: on_success
   only:
     - main
-    -
   script:
     - echo " Je vais lancer les conteneurs "
     - docker-compose up -d
