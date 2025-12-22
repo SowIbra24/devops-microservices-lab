@@ -162,3 +162,28 @@ Pour faire en sorte d'avoir un un CI/CD, j'ai décidé d'écrire quelques tests 
 s'est incrémentée exactement comme elle le devait.
 - `ci/tests_curl_calculatrice.sh` fait des tests en envoyant 2 nombres en POST. Il récupère ensuite le résultat et vérifie que c'est le bon.
 Ces 2 scripts sont ensuite appelés dans `ci/run.sh` qui automatise et gère les sorties d'erreurs. Il me servira dans la mise en place du CI/CD.
+
+# Feat : Mise en place du CI/CD
+
+Pour créer un runner compatible **DinD (Docker-in-Docker)**, j'ai mis en place un runner hébergé sur mon propre ordinateur en 
+attendant de le déployer dans le cloud.  
+J'ai configuré le fichier `config.toml` pour définir ses paramètres.
+
+## GitLab CI
+
+Au départ, j'avais une logique simple :
+- Lancer mes conteneurs
+- Exécuter mes scripts de tests directement avec des `curl` sur `localhost`.
+
+Cependant, cela ne fonctionnait pas avec DinD, car le runner et les autres conteneurs ne communiquaient pas correctement.  
+J'ai donc repensé la logique.
+
+## Nouvelle approche
+
+- Création d'un conteneur `tests` dédié
+- Ce conteneur se lance après que les services principaux soient prêts
+- Il exécute tous les tests et termine ensuite
+- Les logs des tests sont visibles directement
+- Si un test échoue, le pipeline est marqué comme échoué
+
+Résultat : le pipeline fonctionne correctement et passe tous les tests.
