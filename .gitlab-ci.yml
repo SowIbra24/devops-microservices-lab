@@ -8,7 +8,7 @@ build_run_containers_and_test:
   only:
     - main
   before_script:
-    - sudo apt update -y && sudo apt install docker-compose -y
+    - apt update -y &&  apt install docker-compose -y
     - chmod +x tests.sh
   script:
     - echo " ************** Debut *************"
