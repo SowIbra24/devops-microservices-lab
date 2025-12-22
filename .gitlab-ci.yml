@@ -1,10 +1,5 @@
 image: ubuntu:22.04
 
-default:
-  tags:
-    - docker_build
-    - docker_ci_build
-    - docker_image
 stages:
   - build_run_containers_and_test
 
@@ -13,7 +8,8 @@ build_run_containers_and_test:
   only:
     - main
   before_script:
-    - apt update -y &&  apt install docker-compose -y
+    - apt update -y && && apt install docker.io && apt install docker-compose -y
+    - systemctl start docker
     - chmod +x tests.sh
   script:
     - echo " ************** Debut *************"
