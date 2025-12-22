@@ -13,28 +13,35 @@ default:
 
 stages:
   - build
-  - run_containers
+  - run_containers_and_test
 
 build:
   stage: build
   only:
     - main
   script:
+    - set +x
     - echo " Je vais faire un build "
     - docker-compose build
     - echo " Build fini "
 
-run_containers:
-  stage: run_containers
+run_containers_and_test:
+  stage: run_containers_and_test
   when: on_success
   only:
     - main
+  before_script:
+    - chmod +x ci/run.sh
   script:
+    - set +x
     - echo " Je vais lancer les conteneurs "
     - docker-compose up -d
     - echo " Lancement fini "
     - echo "voici les conteneurs"
     - docker ps -a
+    - echo " Lancement des tests "
+    - ci/run.sh
+    - echo " J'éteins les conteneurs "
     - docker-compose down -v
 
 
