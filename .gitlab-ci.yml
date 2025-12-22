@@ -1,28 +1,19 @@
-image: docker:24.0.5
-
-services:
-   - docker:24.0.5-dind
-
-variables:
-  COMPOSE_PROJECT_NAME: apprentissage_docker
-  DOCKER_TLS_CERTDIR: "" # Nécéssaire pour faire du dind
-
-default:
-  tags:
-    - docker_daemon
+image: ubuntu:22.04
 
 stages:
   - build_run_containers_and_test
 
 build_run_containers_and_test:
   stage: build_run_containers_and_test
-  when: on_success
   only:
     - main
   before_script:
+    - sudo apt update -y && sudo apt install docker-compose -y
     - chmod +x tests.sh
   script:
+    - echo " ************** Debut *************"
     - sh tests.sh
+    - echo " ************** Fin *************"
 
 
 
