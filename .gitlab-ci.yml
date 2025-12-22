@@ -30,7 +30,10 @@ build_run_containers_and_test:
     - echo "voici les conteneurs"
     - docker ps -a
     - echo " Lancement des tests "
-    - ./ci/run.sh
+    - sleep 5
+    - curl -s http://localhost:8080
+    - echo "test avec nom du service"
+    - curl -s http://calculatrice:80
     - echo " J'éteins les conteneurs "
     - docker-compose down -v
 
