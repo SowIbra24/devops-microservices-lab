@@ -8,7 +8,7 @@ build_run_containers_and_test:
   only:
     - main
   before_script:
-    - apt update -y && && apt install docker.io && apt install docker-compose -y
+    - apt update -y && apt install docker.io && apt install docker-compose -y
     - systemctl start docker
     - chmod +x tests.sh
   script:
