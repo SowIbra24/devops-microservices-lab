@@ -20,9 +20,9 @@ build:
   only:
     - main
   script:
-    - echo "################# Je vais faire un build #################"
+    - echo " Je vais faire un build "
     - docker-compose build
-    - echo "################# Build fini ######################"
+    - echo " Build fini "
 
 run_containers:
   stage: run_containers
@@ -30,9 +30,9 @@ run_containers:
   only:
     - main
   script:
-    - echo "################# Je vais lancer les conteneurs #################"
+    - echo " Je vais lancer les conteneurs "
     - docker-compose up -d
-    - echo "################# Lancement fini ######################"
+    - echo " Lancement fini "
     - echo "voici les conteneurs"
     - docker ps -a
     - docker-compose down -v
