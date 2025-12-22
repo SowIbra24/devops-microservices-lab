@@ -1,6 +1,6 @@
 #!/bin/bash
 
-url="http://app-flask:5000"
+url="http://app-flask:5000/"
 incr=5
 
 val_init=$(curl -s $url | grep -oP '(?<=Compteur : )\d+')
