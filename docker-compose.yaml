@@ -47,6 +47,15 @@ services:
     networks:
      - monReseau
 
+  tests:
+    build: ci
+    container_name: tests
+    depends_on:
+      - calculatrice
+      - app-flask
+    networks:
+      - monReseau
+
 
 
 volumes:
