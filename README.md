@@ -203,3 +203,29 @@ Pour GitHub Actions, le même principe est appliqué :
 - Les tests sont isolés dans un conteneur dédié
 - Pas d’impact sur les autres services si les tests échouent
 - Visualisation directe des logs dans l’interface GitHub
+
+# Feat : Ajout d’un conteneur Nginx comme reverse proxy
+
+Pour centraliser et dispatcher les requetes vers nos différents microservices, j’ai ajouté un **conteneur Nginx**.  
+Nginx agit comme un **reverse proxy**, c’est-à-dire qu’il reçoit toutes les requetes HTTP sur le port `80` de l’hote et 
+les redirige vers le service approprié selon l’URL.
+
+Grace à cette configuration, aucun autre service n’expose directement son port sur le localhost, Nginx étant le
+**point d’entrée unique**(ce qui peut aussi etre un point de défaillance unique).
+
+Pour lancer les services, exécutez :
+```bash
+  docker-compose up -d
+```
+
+Puis ouvrez votre navigateur et rendez-vous sur `http://localhost` pour accéder à la page d’accueil qui permet de naviguer entre 
+les différents services.
+
+### Rôle de Nginx
+
+- `/calculatrice/` → redirige vers le service `calculatrice` (microservice avec la calculatrice HTML).
+- `/compteur/` → redirige vers le service `app-flask` (application Flask avec le compteur).
+- `/phpmyadmin/` → redirige vers le service `phpmyadmin` (interface graphique de gestion de la base de données MySQL).
+
+Toutes les routes sont ainsi accessibles via **localhost** ou **localhost:80**, avec un seul point d’entrée, 
+ce qui simplifie la gestion des URLs et la configuration côté client.
