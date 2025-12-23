@@ -1,4 +1,6 @@
 # devops-microservices-lab
+[![CI Pipeline](https://github.com/SowIbra24/devops-microservices-lab/actions/workflows/tests.yml/badge.svg)](https://github.com/SowIbra24/devops-microservices-lab/actions/workflows/tests.yml)
+
 Première version avec un petit programme qui éxécute flask et affiche une page avec un compteur qui s'incrémente
  de 1 à chaque fois qu'on visite la page.
 ## Exécution sans docker
