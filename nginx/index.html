@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Mes services Docker</title>
+<style>
+  body {
+    font-family: Tahoma, Verdana, Arial, sans-serif;
+    margin: 2em auto;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+  h1 { text-align: center; }
+  ul { list-style-type: none; padding: 0; }
+  li {
+    margin: 1em 0;
+    padding: 1em;
+    background: #f0f0f0;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+  li:hover { background: #e0e0e0; }
+  a {
+    text-decoration: none;
+    color: #007ACC;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+<h1>Tableau de bord Docker</h1>
+<p>Voici les services accessibles via Nginx :</p>
+<ul>
+  <li><a href="/calculatrice/">Calculatrice</a> – service calculatrice</li>
+  <li><a href="/compteur/">Compteur Flask</a> – application Flask</li>
+  <li><a href="/phpmyadmin/">phpMyAdmin</a> – interface de gestion de base de données</li>
+</ul>
+
+</body>
+</html>
+
