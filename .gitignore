@@ -1,1 +1,3 @@
 venv/*
+ansible/project-openrc.sh
+ansible-openstack-venv/*
