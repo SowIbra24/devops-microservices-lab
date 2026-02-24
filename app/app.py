@@ -1,8 +1,11 @@
 from flask import Flask
 import mysql.connector
 import time
+from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
 
 app = Flask(__name__)
+
+VISITS = Counter('flask_app_hits_total', 'Nombre total de visites sur le serveur Flask')
 
 def get_db_connection():
     return mysql.connector.connect(
@@ -14,6 +17,7 @@ def get_db_connection():
 
 @app.route("/")
 def index():
+    VISITS.inc()
     db = get_db_connection()
     cursor = db.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS counter_table (id INT PRIMARY KEY, count INT)")
@@ -35,6 +39,10 @@ def index():
 </html>
 """
     return html
+
+@app.route("/metrics")
+def metrics():
+    return generate_latest(), 200, {'Content-Type': CONTENT_TYPE_LATEST}
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
