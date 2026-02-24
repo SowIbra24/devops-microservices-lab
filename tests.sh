@@ -10,5 +10,5 @@ EXIT_CODE=$(docker inspect tests --format='{{.State.ExitCode}}')
 echo "Les tests sont finis"
 docker rm -f tests 2>/dev/null
 echo "j'éteins tout"
-docker-compose down -v
+docker-compose down
 exit $EXIT_CODE
