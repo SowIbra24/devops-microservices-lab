@@ -83,9 +83,46 @@ services:
       - app-flask
       - calculatrice
 
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    ports:
+      - "3100:3100"
+    networks:
+      - monReseau
+    restart: always
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./monitoring/promtail/config.yml:/etc/promtail/config.yml
+    networks:
+      - monReseau
+    ports:
+      - "9080:9080"
+    depends_on:
+      - loki
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - monReseau
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    restart: always
+
 volumes:
   mysql_data:
   prometheus_data:
+  grafana_data:
 
 networks:
   monReseau:
