@@ -231,3 +231,45 @@ les différents services.
 
 Toutes les routes sont ainsi accessibles via **localhost** ou **localhost:80**, avec un seul point d’entrée, 
 ce qui simplifie la gestion des URLs et la configuration côté client.
+
+# Feat : Observabilité complète avec Prometheus, Loki et Grafana
+
+Après avoir mis en place le reverse proxy, l'étape suivante a été d'ajouter une couche d'observabilité. L'objectif est de ne plus naviguer à l'aveugle et de pouvoir surveiller les performances (métriques) ainsi que les événements (logs) de tous les microservices sur une interface unique.
+
+## Centralisation des métriques avec Prometheus
+Pour suivre l'utilisation des services, j'ai intégré **Prometheus**.
+- L'application Flask utilise `prometheus_client` pour exposer ses compteurs sur la route `/metrics`.
+- Prometheus est configuré pour "scrapper" ces données à intervalle régulier.
+- Les données sont persistantes via un volume Docker nommé `prometheus_data` afin de ne pas perdre l'historique en cas de redémarrage du conteneur.
+
+## Agrégation des logs avec Loki et Promtail
+Pour éviter de faire des `docker logs` manuels sur chaque service, j'ai déployé une pile de logging :
+- **Promtail** : Il agit comme un agent de collecte. Il est monté sur le socket Docker (`/var/run/docker.sock`) pour détecter automatiquement tous les conteneurs lancés.
+- **Loki** : Il reçoit les logs envoyés par Promtail et les indexe de manière optimisée.
+- Grâce au système de labels, chaque ligne de log est marquée avec le nom du conteneur d'origine (ex: `container: "/app-flask"`).
+
+## Visualisation sur Grafana
+Grafana sert de point d'entrée unique (`http://localhost:3000`) pour visualiser les deux sources de données. J'ai créé un dashboard personnalisé qui permet de corréler les événements.
+
+### Panel 1 : Trafic de l'application (Metrics)
+Ce graphique affiche le taux de requêtes par seconde sur l'application Flask. On utilise la requête suivante :
+```promql
+rate(flask_app_hits_total[5m])
+```
+### Panel 2 : Journal de bord universel (Logs)
+Ce panneau affiche les logs de tous les conteneurs en temps réel.
+
+```promql
+{container=~".+"} | json
+```
+
+## Lancement de la stack de monitoring
+L'infrastructure complète compte désormais 8 conteneurs. Tout est orchestré via le même fichier `docker-compose.yaml`.
+```bash
+# Lancer l'ensemble des services (App + DB + Nginx + Monitoring)
+    docker-compose up -d --build
+    
+    # Vérifier que les outils de monitoring sont prêts
+    # Grafana : localhost:3000 (admin/admin)
+    # Prometheus : localhost:9090
+```
