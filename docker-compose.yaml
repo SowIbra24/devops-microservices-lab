@@ -65,7 +65,27 @@ services:
       - app-flask
       - phpmyadmin
 
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: always
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - monReseau
+    ports:
+      - "9090:9090"
+    depends_on:
+      - app-flask
+      - calculatrice
+
 volumes:
   mysql_data:
+  prometheus_data:
+
 networks:
   monReseau:
