@@ -2,6 +2,10 @@
 
 url="http://app-flask:5000/"
 incr=5
+raw_output=$(curl -s $url)
+echo "--- DEBUG CI : Contenu brut reçu du serveur ---"
+echo "$raw_output"
+echo "-----------------------------------------------"
 
 val_init=$(curl -s $url | grep -oP '(?<=Compteur : )\d+')
 echo "Valeur initiale du compteur : $val_init"
