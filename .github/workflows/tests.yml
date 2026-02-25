@@ -5,6 +5,12 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  COMPOSE_PROJECT_NAME: "ci_gh_${{ github.run_id }}"
+  NGINX_PORT: ${{ secrets.NGINX_PORT }}
+  GRAFANA_PORT: ${{ secrets.GRAFANA_PORT }}
+  PROMETHEUS_PORT: ${{ secrets.PROMETHEUS_PORT }}
+
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
