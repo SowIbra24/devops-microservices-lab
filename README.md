@@ -273,3 +273,35 @@ L'infrastructure complète compte désormais 8 conteneurs. Tout est orchestré v
     # Grafana : localhost:3000 (admin/admin)
     # Prometheus : localhost:9090
 ```
+
+## Optimisation de la fiabilité et isolation des tests (CI/CD)
+Pour stabiliser les pipelines d'intégration continue sur GitLab et GitHub, j'ai apporté deux améliorations majeures concernant 
+la gestion du cycle de vie des conteneurs.
+
+### Synchronisation des services via Healthchecks
+L'erreur récurrente lors des tests automatisés était l'obtention d'une erreur 500 au premier appel de l'application. 
+Ce problème était dû au fait que le serveur Flask démarrait plus rapidement que le service MySQL, tentant d'interroger 
+une base de données encore en phase d'initialisation.
+
+Pour résoudre cela, j'ai configuré un Healthcheck sur le service de base de données dans le fichier docker-compose.yml :
+- Le service db effectue un auto-test de santé via la commande mysqladmin ping.
+- Le service app-flask est configuré avec une dépendance stricte : condition: service_healthy.
+
+Grâce à cette configuration, Docker garantit que Flask ne reçoit de trafic que lorsque la base de données est réellement prête 
+à accepter des connexions, rendant les tests 100% déterministes.
+
+### Isolation par environnement et gestion des variables
+Afin de permettre l'exécution de pipelines parallèles sans conflit de nommage sur les runners, j'ai généralisé l'usage de la variable
+COMPOSE_PROJECT_NAME.
+
+Sur GitLab CI :
+L'isolation repose sur la variable $CI_PIPELINE_ID. Les ports sont définis directement dans le bloc variables du fichier .gitlab-ci.yml 
+pour assurer la cohérence entre les étapes de build et de test.
+
+Sur GitHub Actions :
+L'isolation est assurée par ${{ github.run_id }}. Pour la gestion des ports et des accès, j'ai utilisé les Repository Secrets de la forge. 
+Ces secrets sont injectés dans l'environnement du runner au moment de l'exécution, permettant de garder la configuration de l'infrastructure 
+(ports NGINX, Grafana, etc.) en dehors du code source.
+
+Cette architecture permet de garantir que chaque exécution de test dispose de son propre réseau, de ses propres volumes 
+et de son propre espace de nommage DNS interne, tout en restant compatible avec les spécificités de chaque plateforme CI/CD.

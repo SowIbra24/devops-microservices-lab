@@ -10,5 +10,5 @@ docker wait ${COMPOSE_PROJECT_NAME}_tests
 EXIT_CODE=$(docker inspect ${COMPOSE_PROJECT_NAME}_tests --format='{{.State.ExitCode}}')
 echo " -------------------- Les tests sont finis -----------------------------"
 echo " -------------------- j'éteins tout ------------------------------------"
-docker-compose down
+docker-compose down -v
 exit $EXIT_CODE
