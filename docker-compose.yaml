@@ -12,6 +12,11 @@ services:
       - mysql_data:/var/lib/mysql
     networks:
       - monReseau
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "-ppassword" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   app-flask:
     build: ./app
@@ -20,7 +25,9 @@ services:
     networks:
       - monReseau
     depends_on:
-      - db
+      db :
+        condition: service_healthy
+          
 
   phpmyadmin:
     build: ./app/phpmyadmin
