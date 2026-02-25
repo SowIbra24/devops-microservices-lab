@@ -1,7 +1,7 @@
 services:
   db:
     build: ./app/bdd
-    container_name: db
+    container_name: ${COMPOSE_PROJECT_NAME}_db
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
@@ -15,7 +15,7 @@ services:
 
   app-flask:
     build: ./app
-    container_name: app-flask
+    container_name: ${COMPOSE_PROJECT_NAME}_app-flask
     restart: always
     networks:
       - monReseau
@@ -24,7 +24,7 @@ services:
 
   phpmyadmin:
     build: ./app/phpmyadmin
-    container_name: phpmyadmin
+    container_name: ${COMPOSE_PROJECT_NAME}_phpmyadmin
     restart: always
     environment:
       PMA_HOST: db
@@ -37,13 +37,13 @@ services:
 
   calculatrice:
     build: ./web
-    container_name: calculatrice
+    container_name: ${COMPOSE_PROJECT_NAME}_calculatrice
     networks:
      - monReseau
 
   tests:
     build: ./ci
-    container_name: tests
+    container_name: ${COMPOSE_PROJECT_NAME}_tests
     depends_on:
       - calculatrice
       - app-flask
@@ -52,9 +52,9 @@ services:
 
   nginx:
     build: ./nginx
-    container_name: nginx
+    container_name: ${COMPOSE_PROJECT_NAME}_nginx
     ports:
-      - "80:80"
+      - "${NGINX_PORT:-80}:80"
     networks:
       - monReseau
     depends_on:
@@ -65,45 +65,42 @@ services:
 
   prometheus:
     build: ./monitoring/prometheus
-    container_name: prometheus
-    restart: always
+    container_name: ${COMPOSE_PROJECT_NAME}_prometheus
     volumes:
       - prometheus_data:/prometheus
     networks:
       - monReseau
     ports:
-      - "9090:9090"
+      - "${PROMETHEUS_PORT:-9090}:9090"
     depends_on:
       - app-flask
       - calculatrice
+    restart: always
 
   loki:
-    image: grafana/loki:latest
-    container_name: loki
-    ports:
-      - "3100:3100"
+    build: ./monitoring/loki
+    container_name: ${COMPOSE_PROJECT_NAME}_loki
     networks:
       - monReseau
     restart: always
 
   promtail:
     build: ./monitoring/promtail
-    container_name: promtail
+    container_name: ${COMPOSE_PROJECT_NAME}_promtail
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - monReseau
-    ports:
-      - "9080:9080"
     depends_on:
       - loki
+    restart: always
 
   grafana:
-    image: grafana/grafana:latest
-    container_name: grafana
+    build: ./monitoring/grafana
+    container_name: ${COMPOSE_PROJECT_NAME}_grafana
     ports:
-      - "3000:3000"
+      - "${GRAFANA_PORT:-3000}:3000"
     networks:
       - monReseau
     environment:

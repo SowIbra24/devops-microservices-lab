@@ -2,6 +2,9 @@ image: docker:24.0.5
 
 variables:
   COMPOSE_PROJECT_NAME: ci_project_${CI_PIPELINE_ID}
+  NGINX_PORT: 8080
+  GRAFANA_PORT: 3001
+  PROMETHEUS_PORT: 9091
 
 default:
   tags:
