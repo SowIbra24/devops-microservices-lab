@@ -1,7 +1,7 @@
 image: docker:24.0.5
 
 variables:
-  COMPOSE_PROJECT_NAME: apprentissage_docker
+  COMPOSE_PROJECT_NAME: ci_project_${CI_PIPELINE_ID}
 
 default:
   tags:
