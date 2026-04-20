@@ -254,7 +254,7 @@ Grafana sert de point d'entrée unique (`http://localhost:3000`) pour visualiser
 ### Panel 1 : Trafic de l'application (Metrics)
 Ce graphique affiche le taux de requêtes par seconde sur l'application Flask. On utilise la requête suivante :
 ```promql
-rate(flask_app_hits_total[5m])
+rate(flask_app_hits_total[1m])
 ```
 ### Panel 2 : Journal de bord universel (Logs)
 Ce panneau affiche les logs de tous les conteneurs en temps réel.
@@ -262,7 +262,7 @@ Ce panneau affiche les logs de tous les conteneurs en temps réel.
 ```promql
 {container=~".+"} | json
 ```
-
+Les fichiers `datasources.yaml`, `master_dashboard.json` & `dashboard.yaml` permettent de stocker le dashboard pour ne pas le recréer.
 ## Lancement de la stack de monitoring
 L'infrastructure complète compte désormais 8 conteneurs. Tout est orchestré via le même fichier `docker-compose.yaml`.
 ```bash
@@ -273,6 +273,7 @@ L'infrastructure complète compte désormais 8 conteneurs. Tout est orchestré v
     # Grafana : localhost:3000 (admin/admin)
     # Prometheus : localhost:9090
 ```
+
 
 ## Optimisation de la fiabilité et isolation des tests (CI/CD)
 Pour stabiliser les pipelines d'intégration continue sur GitLab et GitHub, j'ai apporté deux améliorations majeures concernant 
